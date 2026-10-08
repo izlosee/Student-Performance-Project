@@ -1,0 +1,163 @@
+--- 
+title: "Student Performance Project: Data Wrangling" 
+author: 'Izabelle Losee' 
+format: gfm
+--- 
+Preparing the Data
+
+```{python}
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+data = pd.read_csv("C:/Users/izlos/Downloads/StudentPerformanceFactors.csv")
+
+data.head()
+```
+
+```{python}
+data.drop_duplicates()
+
+data.describe
+
+data.groupby('School_Type').size()
+```
+
+The focus of my project is seeing how students at different schools perform on exams. The first initial question is to see if there is a difference between school types. Here is an initial look at the average exam scores at public and private schools.
+
+```{python}
+stats = data.groupby('School_Type').agg(
+    {'Exam_Score': ['mean','median','std', 'min', 'max'], 
+    'Previous_Scores': ['mean','median', 'std', 'min', 'max']}
+    ).reset_index()
+
+stats
+```
+
+```{python}
+school_type_plot = sns.boxplot(
+    data= data, 
+    x= 'School_Type',
+    y= 'Exam_Score'
+)
+
+plt.title("Exam Scores by School Type")
+plt.xlabel('School Type')
+plt.ylabel('Exam Score')
+
+plt.show()
+```
+
+The first look showed that there is not a huge difference in scores between school types. The most current exam had only around a .08 difference, with private scores holding the higher average. While the previous exam scores showed a .4 difference with public schools holding the higher average score. This showed that there are other factors that play into students performance rather than just school type. I then wanted to go explore the relationships between the variables and exam scores.
+
+```{python}
+sns.scatterplot(
+    data=data,
+    x= 'Hours_Studied',
+    y='Exam_Score',
+    hue= 'School_Type'
+)
+
+plt.title('Study Hours and Exam Score by School Type')
+plt.xlabel('Study Hours')
+plt.ylabel("Exam Score")
+
+plt.show()
+```
+
+Hours Studied and Exam Scores showed a positive relationship. The more hours a student studied the higher their exam scores were. There were a good amount of outliers but that makes sense with exam scores, some students are naturally good at test taking and do not have to spend time studying.
+
+```{python}
+sns.boxplot(
+    data=data,
+    x= 'Teacher_Quality',
+    y='Exam_Score',
+    hue= 'School_Type'
+)
+
+plt.title('Teacher Quality and Exam Score by School Type')
+plt.xlabel('Teacher Quality')
+plt.ylabel("Exam Score")
+
+plt.show()
+```
+
+Teacher Quality did not seem to be as strong of an indicator as Hours Studied, although the students that went to public school and had a high quality teacher had the highest average scores.
+
+```{python}
+sns.boxplot(
+    data=data,
+    x= 'Parental_Involvement',
+    y='Exam_Score',
+    hue= 'School_Type'
+)
+
+plt.title('Parental Involvement and Exam Score by School Type')
+plt.xlabel('Parental Involvement')
+plt.ylabel("Exam Score")
+
+plt.show()
+```
+
+Parental Involvement showed to be a positive relationship. The more involvement a parent has the better the student scores on the exam. Each group's scores continued to increase as the parental invovlement increased.
+
+```{python}
+summary = data.groupby(
+    ['School_Type', "Parental_Involvement"])['Exam_Score'].mean().reset_index()
+
+summary
+
+```
+
+Here it is showed in a pivot table so it is simplified and easier to interpret.
+
+```{python}
+pivot = pd.pivot_table(
+    data, 
+    values= 'Exam_Score',
+    index = 'Parental_Involvement',
+    columns = "School_Type",
+    aggfunc= 'mean'
+)
+
+pivot
+```
+
+Overall, each variable had a little/weak relationship with exam score. School type alone was not enough to see a significant difference, or be used to make predictions or decisions. Combing the variables together however would help to create a big picture of each student.
+
+```{python}
+sns.heatmap(
+    pivot, 
+    annot = True, 
+    fmt= '.1f'
+)
+
+plt.show()
+```
+
+After doing a basic analysis and seeing how to various characteristics compare with exam scores, I wanted to run a linear regression model to see which was most strongly associated with exam performance and how they would interact with each other.
+
+```{python}
+import statsmodels.api as sm
+import numpy as np
+x= data[
+    ["School_Type",
+    'Hours_Studied',
+    'Teacher_Quality',
+    'Parental_Involvement',
+    'Parental_Education_Level']
+]
+
+y= data['Exam_Score']
+
+x= pd.get_dummies(x, drop_first=True)
+
+x= x.astype(float)
+
+x=sm.add_constant(x)
+
+model= sm.OLS(y,x).fit()
+model.summary()
+```
+
+The results of the linear regression model were actually surprising. It showed that the relationship between school type and exam score was not significant. It also showed that students with a teacher quality of low and medium, or parental involvement of low or medium actually hurt their score. Meaning if they were in the low parental involvement group then they would score about 1.8 points lower than students with a high level of parental involvement. It was also interesting to see the education level of parents was significant and could hurt or help a student depending on the level. Overall, school type was not a strong indicator as I had thought would be. There are a lot of factors that play into a student's performance and should be used together when trying to understand their exam scores.

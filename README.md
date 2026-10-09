@@ -344,8 +344,8 @@ model.summary()
 | Dep. Variable:    | Exam_Score       | R-squared:          | 0.243     |
 | Model:            | OLS              | Adj. R-squared:     | 0.242     |
 | Method:           | Least Squares    | F-statistic:        | 264.7     |
-| Date:             | Thu, 08 Oct 2026 | Prob (F-statistic): | 0.00      |
-| Time:             | 18:28:38         | Log-Likelihood:     | -17431.   |
+| Date:             | Fri, 09 Oct 2026 | Prob (F-statistic): | 0.00      |
+| Time:             | 08:04:58         | Log-Likelihood:     | -17431.   |
 | No. Observations: | 6607             | AIC:                | 3.488e+04 |
 | Df Residuals:     | 6598             | BIC:                | 3.494e+04 |
 | Df Model:         | 8                |                     |           |

@@ -221,19 +221,6 @@ summary = data.groupby(
 summary
 ```
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-&#10;    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-&#10;    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-
 |     | School_Type | Parental_Involvement | Exam_Score |
 |-----|-------------|----------------------|------------|
 | 0   | Private     | High                 | 68.152801  |

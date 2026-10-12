@@ -13,18 +13,6 @@ data = pd.read_csv("C:/Users/izlos/Downloads/StudentPerformanceFactors.csv")
 data.head()
 ```
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-&#10;    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-&#10;    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 
 |  | Hours_Studied | Attendance | Parental_Involvement | Access_to_Resources | Extracurricular_Activities | Sleep_Hours | Previous_Scores | Motivation_Level | Internet_Access | Tutoring_Sessions | Family_Income | Teacher_Quality | School_Type | Peer_Influence | Physical_Activity | Learning_Disabilities | Parental_Education_Level | Distance_from_Home | Gender | Exam_Score |
 |----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|----|
@@ -34,7 +22,7 @@ data.head()
 | 3 | 29 | 89 | Low | Medium | Yes | 8 | 98 | Medium | Yes | 1 | Medium | Medium | Public | Negative | 4 | No | High School | Moderate | Male | 71 |
 | 4 | 19 | 92 | Medium | Medium | Yes | 6 | 65 | Medium | Yes | 3 | Medium | High | Public | Neutral | 4 | No | College | Near | Female | 70 |
 
-</div>
+
 
 ``` python
 data.drop_duplicates()
@@ -272,18 +260,6 @@ pivot = pd.pivot_table(
 pivot
 ```
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-&#10;    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-&#10;    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 
 | School_Type          | Private   | Public    |
 |----------------------|-----------|-----------|
@@ -292,7 +268,6 @@ pivot
 | Low                  | 66.115789 | 66.454545 |
 | Medium               | 67.225962 | 67.040913 |
 
-</div>
 
 Overall, each variable had a little/weak relationship with exam score.
 School type alone was not enough to see a significant difference, or be
@@ -344,8 +319,8 @@ model.summary()
 | Dep. Variable:    | Exam_Score       | R-squared:          | 0.243     |
 | Model:            | OLS              | Adj. R-squared:     | 0.242     |
 | Method:           | Least Squares    | F-statistic:        | 264.7     |
-| Date:             | Fri, 09 Oct 2026 | Prob (F-statistic): | 0.00      |
-| Time:             | 08:04:58         | Log-Likelihood:     | -17431.   |
+| Date:             | Mon, 12 Oct 2026 | Prob (F-statistic): | 0.00      |
+| Time:             | 13:18:32         | Log-Likelihood:     | -17431.   |
 | No. Observations: | 6607             | AIC:                | 3.488e+04 |
 | Df Residuals:     | 6598             | BIC:                | 3.494e+04 |
 | Df Model:         | 8                |                     |           |
